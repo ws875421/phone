@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.member.Util.ImageUtil;
 import com.member.model.MemberService;
 import com.member.model.MemberVo;
 
@@ -38,7 +39,7 @@ public class MemberServlet extends HttpServlet {
 			jsonIn.append(line);
 		}
 		System.out.println("input: " + jsonIn);
-		MemberService memberDao = new MemberService();
+		MemberService memberSvc = new MemberService();
 		JsonObject jsonObject = gson.fromJson(jsonIn.toString(), JsonObject.class);
 		String action = jsonObject.get("action").getAsString();
 		System.out.println("---1---");
@@ -47,14 +48,14 @@ public class MemberServlet extends HttpServlet {
 			String mem_account = jsonObject.get("mem_account").getAsString();
 			String mem_pwd = jsonObject.get("mem_pwd").getAsString();
 
-			if (memberDao.isMember(mem_account, mem_pwd)) {
-				MemberVo memebervo = memberDao.getOneMem_account(mem_account);
+			if (memberSvc.isMember(mem_account, mem_pwd)) {
+				MemberVo memebervo = memberSvc.getOneMem_account(mem_account);
 				String jsonStr = gson.toJson(memebervo);
 
 				writeText(res, jsonStr);
 
 			} else {
-				writeText(res, String.valueOf(memberDao.isMember(mem_account, mem_pwd)));
+				writeText(res, String.valueOf(memberSvc.isMember(mem_account, mem_pwd)));
 			}
 
 			System.out.println("---4---");
@@ -65,7 +66,16 @@ public class MemberServlet extends HttpServlet {
 			OutputStream os = res.getOutputStream();
 			String mem_no = jsonObject.get("mem_no").getAsString();
 			int imageSize = jsonObject.get("imageSize").getAsInt();
-			
+			byte[] image = memberSvc.getImage(mem_no);
+			if (image != null) {
+				// 縮圖 in server side
+				image = ImageUtil.shrink(image, imageSize);
+				res.setContentType("image/jpeg");
+				res.setContentLength(image.length);
+			}
+			os.write(image);
+		} else {
+			writeText(res, "");
 		}
 
 	}
