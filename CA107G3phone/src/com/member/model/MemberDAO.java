@@ -22,6 +22,8 @@ public class MemberDAO implements MemberDAO_interface {
 	private static final String GET_ONE_STMT = "SELECT * FROM MEMBER WHERE mem_account = ?";
 	private static final String GET_ALL_STMT = "SELECT * FROM MEMBER ";
 	private static final String FIND_BY_ID_PASWD = "SELECT * FROM member WHERE mem_account = ? AND mem_pwd = ?";
+	// 圖片
+	private static final String FIND_IMG_BY_ISBN = "SELECT MEM_PIC FROM MEMBER WHERE MEM_NO =?";
 
 	static {
 		try {
@@ -46,15 +48,14 @@ public class MemberDAO implements MemberDAO_interface {
 
 		try {
 			con = ds.getConnection();
-			
+
 //			try {
 //				Class.forName("oracle.jdbc.driver.OracleDriver");
 //			} catch (ClassNotFoundException e) {
 //				e.printStackTrace();
 //			}
 //			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","CA107G3", "123456");
-			
-			
+
 			pstm = con.prepareStatement(FIND_BY_ID_PASWD);
 			pstm.setString(1, mem_account);
 			pstm.setString(2, mem_pwd);
@@ -94,6 +95,62 @@ public class MemberDAO implements MemberDAO_interface {
 		}
 
 		return isMember;
+	}
+
+	@Override
+	public byte[] getImage(String mem_no) {
+		byte[] picture = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+//			try {
+//				Class.forName("oracle.jdbc.driver.OracleDriver");
+//			} catch (ClassNotFoundException e) {
+//				e.printStackTrace();
+//			}
+//			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "CA107G3", "123456");
+
+			//pool
+			con = ds.getConnection();
+			
+			pstmt = con.prepareStatement(FIND_IMG_BY_ISBN);
+			pstmt.setString(1, mem_no);
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				picture = rs.getBytes(1);
+			}
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return picture;
+
 	}
 
 	@Override

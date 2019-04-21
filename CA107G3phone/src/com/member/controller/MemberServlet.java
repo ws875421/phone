@@ -2,6 +2,7 @@ package com.member.controller;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
@@ -49,9 +50,8 @@ public class MemberServlet extends HttpServlet {
 			if (memberDao.isMember(mem_account, mem_pwd)) {
 				MemberVo memebervo = memberDao.getOneMem_account(mem_account);
 				String jsonStr = gson.toJson(memebervo);
-				
+
 				writeText(res, jsonStr);
-				
 
 			} else {
 				writeText(res, String.valueOf(memberDao.isMember(mem_account, mem_pwd)));
@@ -60,6 +60,14 @@ public class MemberServlet extends HttpServlet {
 			System.out.println("---4---");
 
 		}
+
+		if (action.equals("getImage")) {
+			OutputStream os = res.getOutputStream();
+			String mem_no = jsonObject.get("mem_no").getAsString();
+			int imageSize = jsonObject.get("imageSize").getAsInt();
+			
+		}
+
 	}
 
 	private void writeText(HttpServletResponse res, String outText) throws IOException {

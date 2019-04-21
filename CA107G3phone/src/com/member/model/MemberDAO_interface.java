@@ -16,4 +16,6 @@ public interface MemberDAO_interface {
 
 	public boolean isMember(String mem_account, String mem_pwd);
 
+	public byte[] getImage(String mem_no);
+
 }
