@@ -16,6 +16,8 @@ import javax.sql.DataSource;
 public class MemberDAO implements MemberDAO_interface {
 
 	private static DataSource ds = null;
+	
+	//SQL
 	private static final String INSERT_STMT = "INSERT INTO MEMBER VALUES ('M'||LPAD(to_char(member_seq.NEXTVAL), 6, '0'),?,?,?,?,?,?,?,?,?,?,?)";
 	private static final String UPDATE = "UPDATE MEMBER SET MEM_NAME = ?, MEM_PWD = ?, MEM_GENDER = ?, MEM_TEL = ?, MEM_STATUS = ? , MEM_BALANCE = ?, MEM_NICKNAME = ?, MEM_PIC=? WHERE MEM_ACCOUNT = ?";
 	private static final String DELETE = "DELETE FROM MEMBER WHERE MEM_NO =?";

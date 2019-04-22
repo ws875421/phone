@@ -1,27 +1,38 @@
-package com.member.controller;
+package com.vendor.controller;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.Base64;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
+
+import org.json.JSONObject;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.member.Util.ImageUtil;
-import com.member.model.MemberService;
-import com.member.model.MemberVo;
+import com.vendor.model.*;
 
-//@WebServlet("/MemberServlet")
-@MultipartConfig
-public class MemberServlet extends HttpServlet {
+//@WebServlet("/VendorServlet")
+//@MultipartConfig
+public class VendorServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
 	private final static String CONTENT_TYPE = "text/html; charset=UTF-8";
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -39,31 +50,31 @@ public class MemberServlet extends HttpServlet {
 			jsonIn.append(line);
 		}
 		System.out.println("input: " + jsonIn);
-		MemberService memberSvc = new MemberService();
+
+		VendorService vendorSvc = new VendorService();
+
 		JsonObject jsonObject = gson.fromJson(jsonIn.toString(), JsonObject.class);
-
 		String action = jsonObject.get("action").getAsString();
+		if (action.equals("isVendor")) {
+			String v_account = jsonObject.get("v_account").getAsString();
+			String v_pwd = jsonObject.get("v_pwd").getAsString();
 
-		if (action.equals("isMember")) {
-			String mem_account = jsonObject.get("mem_account").getAsString();
-			String mem_pwd = jsonObject.get("mem_pwd").getAsString();
-
-			if (memberSvc.isMember(mem_account, mem_pwd)) {
-				MemberVo memebervo = memberSvc.getOneMem_account(mem_account);
-				String jsonStr = gson.toJson(memebervo);
+			if (vendorSvc.isVendor(v_account, v_pwd)) {
+				VendorVO vendorVO = vendorSvc.getOneV_account(v_account);
+				String jsonStr = gson.toJson(vendorVO);
 
 				writeText(res, jsonStr);
 
 			} else {
-				writeText(res, String.valueOf(memberSvc.isMember(mem_account, mem_pwd)));
+				writeText(res, String.valueOf(vendorSvc.isVendor(v_account, v_pwd)));
 			}
 		}
-
-		if (action.equals("getImage") && (!(jsonObject.get("mem_no").getAsString()).isEmpty())) {
+		
+		if (action.equals("getImage") && (!(jsonObject.get("vendor_no").getAsString()).isEmpty())) {
 			OutputStream os = res.getOutputStream();
-			String mem_no = jsonObject.get("mem_no").getAsString();
+			String vendor_no = jsonObject.get("vendor_no").getAsString();
 			int imageSize = jsonObject.get("imageSize").getAsInt();
-			byte[] image = memberSvc.getImage(mem_no);
+			byte[] image = vendorSvc.getImage(vendor_no);
 			if (image != null) {
 				// 縮圖 in server side
 				image = ImageUtil.shrink(image, imageSize);

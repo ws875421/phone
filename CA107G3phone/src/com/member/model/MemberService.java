@@ -11,17 +11,18 @@ public class MemberService {
 	}
 
 	public boolean isMember(String mem_account, String mem_pwd) {
-
 		return dao.isMember(mem_account, mem_pwd);
 	}
 
 	public byte[] getImage(String mem_no) {
-		
-		
 		return dao.getImage(mem_no);
-	};
+	}
 	
+	public MemberVo getOneMem_account(String mem_account) {
+		return dao.findByPrimaryKey(mem_account);
+	}
 	
+	//----分隔線-----------------------------------
 	public MemberVo add(String mem_name, String mem_account, String mem_pwd, String mem_gender, String mem_mail,
 			String mem_id, String mem_tel, String mem_status, Double mem_balance, String mem_nickname, byte[] mem_pic) {
 
@@ -53,9 +54,6 @@ public class MemberService {
 		dao.delete(mem_no);
 	}
 
-	public MemberVo getOneMem_account(String mem_account) {
-		return dao.findByPrimaryKey(mem_account);
-	}
 
 	public List<MemberVo> getAll() {
 		return dao.getAll();

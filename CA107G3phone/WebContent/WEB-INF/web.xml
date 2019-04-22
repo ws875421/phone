@@ -28,6 +28,15 @@
 		<servlet-name>MemberServlet</servlet-name>
 		<url-pattern>/member/member.do</url-pattern>
 	</servlet-mapping>
+	
+		<servlet>
+		<servlet-name>VendorServlet</servlet-name>
+		<servlet-class>com.vendor.controller.VendorServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>VendorServlet</servlet-name>
+		<url-pattern>/vendor/vendor.do</url-pattern>
+	</servlet-mapping>
 
 
 </web-app>
