@@ -7,6 +7,7 @@ public interface VendorDAO_interface {
 	// Android
 	public boolean isVendor(String v_account, String v_pwd);
 	public byte[] getImage(String vendor_no);
+	public byte[] getImage2(String vendor_no);
 	public VendorVO findByPK(String vendor_no);
 	//------------------------------------------------
 

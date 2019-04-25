@@ -20,11 +20,19 @@ public class VendorService {
 	public byte[] getImage(String vendor_no) {
 		return dao.getImage(vendor_no);
 	}
+	
+	public byte[] getImage2(String vendor_no) {
+		return dao.getImage2(vendor_no);
+	}
 
 	public VendorVO getOneV_account(String v_account) {
 		return dao.findByPK(v_account);
 	}
 
+	public List<VendorVO> getAll() {
+		return dao.getAll();
+	}
+	
 	// ----分隔線-----------------------------------
 	public static void main(String[] args) {
 		VendorService sc = new VendorService();
@@ -93,7 +101,5 @@ public class VendorService {
 		return dao.findByPK(vendor_no);
 	}
 
-	public List<VendorVO> getAll() {
-		return dao.getAll();
-	}
+
 }

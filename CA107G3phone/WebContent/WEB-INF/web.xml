@@ -28,8 +28,8 @@
 		<servlet-name>MemberServlet</servlet-name>
 		<url-pattern>/member/member.do</url-pattern>
 	</servlet-mapping>
-	
-		<servlet>
+
+	<servlet>
 		<servlet-name>VendorServlet</servlet-name>
 		<servlet-class>com.vendor.controller.VendorServlet</servlet-class>
 	</servlet>
@@ -38,5 +38,13 @@
 		<url-pattern>/vendor/vendor.do</url-pattern>
 	</servlet-mapping>
 
+<servlet>
+		<servlet-name>VendorServlet2</servlet-name>
+		<servlet-class>com.vendor.controller.VendorServlet2</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>VendorServlet2</servlet-name>
+		<url-pattern>/vendor/vendor2.do</url-pattern>
+	</servlet-mapping>
 
 </web-app>

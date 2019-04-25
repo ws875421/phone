@@ -30,7 +30,7 @@ import com.vendor.model.*;
 
 //@WebServlet("/VendorServlet")
 //@MultipartConfig
-public class VendorServlet extends HttpServlet {
+public class VendorServlet2 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private final static String CONTENT_TYPE = "text/html; charset=UTF-8";
@@ -57,29 +57,12 @@ public class VendorServlet extends HttpServlet {
 
 		JsonObject jsonObject = gson.fromJson(jsonIn.toString(), JsonObject.class);
 		String action = jsonObject.get("action").getAsString();
-		if (action.equals("isVendor")) {
-			String v_account = jsonObject.get("v_account").getAsString();
-			String v_pwd = jsonObject.get("v_pwd").getAsString();
-
-			if (vendorSvc.isVendor(v_account, v_pwd)) {
-				VendorVO vendorVO = vendorSvc.getOneV_account(v_account);
-				String jsonStr = gson.toJson(vendorVO);
-
-				writeText(res, jsonStr);
-
-			} else {
-				writeText(res, String.valueOf(vendorSvc.isVendor(v_account, v_pwd)));
-			}
-		}
-		if (action.equals("getAll")) {
-			List<VendorVO> vlist = vendorSvc.getAll();
-			writeText(res, gson.toJson(vlist));
-		}
-		if (action.equals("getImage") && (!(jsonObject.get("vendor_no").getAsString()).isEmpty())) {
+		
+		if (action.equals("getImage2") && (!(jsonObject.get("vendor_no").getAsString()).isEmpty())) {
 			OutputStream os = res.getOutputStream();
 			String vendor_no = jsonObject.get("vendor_no").getAsString();
 			int imageSize = jsonObject.get("imageSize").getAsInt();
-			byte[] image = vendorSvc.getImage(vendor_no);
+			byte[] image = vendorSvc.getImage2(vendor_no);
 			if (image != null) {
 				// 縮圖 in server side
 				image = ImageUtil.shrink(image, imageSize);
