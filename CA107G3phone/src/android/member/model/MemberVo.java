@@ -1,4 +1,4 @@
-package com.member.model;
+package android.member.model;
 
 import java.io.Serializable;
 

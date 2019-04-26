@@ -1,4 +1,4 @@
-package com.vendor.model;
+package android.vendor.model;
 
 import java.io.Serializable;
 import java.util.Arrays;

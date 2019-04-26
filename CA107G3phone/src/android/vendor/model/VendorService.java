@@ -1,8 +1,8 @@
-package com.vendor.model;
+package android.vendor.model;
 
 import java.util.List;
 
-import com.member.model.MemberVo;
+import android.member.model.MemberVo;
 
 public class VendorService {
 
