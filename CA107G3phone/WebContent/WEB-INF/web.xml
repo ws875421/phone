@@ -61,7 +61,7 @@
 		<servlet-name>Wait_PosServlet</servlet-name>
 		<url-pattern>/wait_pos/wait_pos.do</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>Wait_PosServlet2</servlet-name>
 		<servlet-class>android.wait_pos.controller.Wait_PosServlet2</servlet-class>
@@ -71,6 +71,17 @@
 		<servlet-name>Wait_PosServlet2</servlet-name>
 		<url-pattern>/wait_pos/wait_pos2.do</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Friend_ListServlet</servlet-name>
+		<servlet-class>android.friend_list.controller.Friend_ListServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Friend_ListServlet</servlet-name>
+		<url-pattern>/friend_list/friend_list.do</url-pattern>
+	</servlet-mapping>
+
+
 
 
 </web-app>
