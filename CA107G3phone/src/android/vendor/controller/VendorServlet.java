@@ -57,6 +57,7 @@ public class VendorServlet extends HttpServlet {
 
 		JsonObject jsonObject = gson.fromJson(jsonIn.toString(), JsonObject.class);
 		String action = jsonObject.get("action").getAsString();
+		
 		if (action.equals("isVendor")) {
 			String v_account = jsonObject.get("v_account").getAsString();
 			String v_pwd = jsonObject.get("v_pwd").getAsString();
