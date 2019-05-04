@@ -28,7 +28,9 @@ public class Friend_ListDAO implements Friend_ListDAO_interface {
 
 	}
 
-	private static final String GET_ONE_STMT = "SELECT * FROM FRIEND_LIST WHERE MEM_NO =?";
+	//    select * from FRIEND_LIST right JOIN MEMBER on FRIEND_LIST.FRIE_NO=MEMBER.MEM_NO where FRIEND_LIST.MEM_NO='M000001';
+	// private static final String GET_ONE_STMT = "SELECT * FROM FRIEND_LIST WHERE MEM_NO =?";
+	 private static final String GET_ONE_STMT = "select * from FRIEND_LIST right JOIN MEMBER on FRIEND_LIST.FRIE_NO=MEMBER.MEM_NO where FRIEND_LIST.MEM_NO=?";
 
 	@Override
 	public List<Friend_ListVO> getfd(String mem_no) {
@@ -48,7 +50,7 @@ public class Friend_ListDAO implements Friend_ListDAO_interface {
 			while (rs.next()) {
 				fdvo = new Friend_ListVO();
 				fdvo.setMem_no(rs.getString(1));
-				fdvo.setFrie_no(rs.getString(2));
+				fdvo.setFrie_no(rs.getString(5));
 				fdvo.setFrie_code(rs.getInt(3));
 				fdlist.add(fdvo);
 			}
