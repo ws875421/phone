@@ -52,6 +52,16 @@ public class Friend_ListServlet extends HttpServlet {
 			writeText(res, jsonStr);
 
 		}
+
+		if (action.equals("getName")) {
+
+			String mem_no = jsonObject.get("mem_no").getAsString();
+			String gName = fdlistSvc.getName(mem_no);
+//			String jsonStr = gson.toJson(gName);
+			writeText(res, gName);
+
+		}
+
 	}
 
 	private void writeText(HttpServletResponse res, String outText) throws IOException {

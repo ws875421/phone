@@ -13,9 +13,13 @@ public class Friend_ListService {
 
 	public List<Friend_ListVO> getfd(String mem_no) {
 
-		List fblist = dao.getfd(mem_no);
+//		List fblist = dao.getfd(mem_no);
 
-		return fblist;
+		return dao.getfd(mem_no);
+	}
+
+	public String getName(String mem_no) {
+		return dao.getName(mem_no);
 	}
 
 }
