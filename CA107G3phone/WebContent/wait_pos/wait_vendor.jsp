@@ -431,6 +431,7 @@ $(".btnReturnZero").click(function(){
 
 //清空
 $(".btnClearLine").click(function(){
+	vendorWaitMgmtWS.send("0");
 	var divWaitTblSize = $(this).parents("div.divWaitTblSize");
 	var tbl_size_val = $(divWaitTblSize).find("input[name=tbl_size]").val();
 	$.ajax({
@@ -456,6 +457,7 @@ $(".btnClearLine").click(function(){
 // 驗證 (check member)
 $(".btnChkMem").click(function(){
 	checkMember(this);
+	
 }); // End of $(".btnChkMem").click
 
 
@@ -463,7 +465,7 @@ $(".btnChkMem").click(function(){
 
 //驗證 (check member)
 function checkMember(btnChkMem){
-
+	vendorWaitMgmtWS.send("0");
 	var divWaitTblSize = $(btnChkMem).parents("div.divWaitTblSize");
 	var tbl_size_val = $(divWaitTblSize).find("input[name=tbl_size]").val();
 	

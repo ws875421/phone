@@ -36,8 +36,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Wait_PosServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-
-
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		doPost(req, res);
 	}
@@ -162,6 +160,20 @@ public class Wait_PosServlet extends HttpServlet {
 				personInLine.getCallMemTimer().cancel();
 				result = (tbl_size * 2) + " 人桌 " + personInLine.getNumberPlate() + " 號驗證成功";
 				SendToVendor.refreshLine("check", wait_line,  tbl_size,  vendor_no, result, getServletContext());
+				
+				Map map = new HashMap<>();
+				for (int i = 0; i < wait_line.getWait_line().size(); i++) {
+					map.put(wait_line.getWait_line().get(i),
+							wait_line.getWait_line().indexOf(wait_line.getWait_line().get(i)));
+
+//					System.out.println(wait_line.getWait_line().get(i) + " : "
+//							+ wait_line.getWait_line().indexOf(wait_line.getWait_line().get(i)));
+				}
+				System.out.println(map);
+
+				ServletContext context = getServletContext();
+				context.setAttribute("map", map);
+				
 			}
 			
 
