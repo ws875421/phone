@@ -21,28 +21,33 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import javax.websocket.server.ServerEndpointConfig;
 
-
-@ServerEndpoint(value="/VendorWS/{vendor_no}", configurator=ServletAwareConfig.class)
+@ServerEndpoint(value = "/VendorWS/{vendor_no}", configurator = ServletAwareConfig.class)
 // , configurator=ServletAwareConfig.class
 public class VendorWS {
 	private static final Set<Session> connectedSessions = Collections.synchronizedSet(new HashSet<>());
 	private EndpointConfig config;
+
 	/*
 	 * 如果想取得HttpSession與ServletContext必須實作
 	 * ServerEndpointConfig.Configurator.modifyHandshake()，
-	 * 參考https://stackoverflow.com/questions/21888425/accessing-servletcontext-and-httpsession-in-onmessage-of-a-jsr-356-serverendpoint
+	 * 參考https://stackoverflow.com/questions/21888425/accessing-servletcontext-and-
+	 * httpsession-in-onmessage-of-a-jsr-356-serverendpoint
 	 */
 	@OnOpen
-	public void onOpen(@PathParam("vendor_no") String vendor_no, Session vendorSession, EndpointConfig config) throws IOException {
+	public void onOpen(@PathParam("vendor_no") String vendor_no, Session vendorSession, EndpointConfig config)
+			throws IOException {
 		this.config = config;
 		connectedSessions.add(vendorSession);
 		String text = String.format("Session ID = %s, connected; userName = %s", vendorSession.getId(), vendor_no);
 		System.out.println(text);
-		
-		HttpSession httpSession = (HttpSession) config.getUserProperties().get("httpSession");
-		ServletContext context = httpSession.getServletContext();
-        Map<String, Set<Session>> vendor_wait_sessions = (Map)context.getAttribute("vendor_wait_sessions");
-        vendor_wait_sessions.get(vendor_no).add(vendorSession);
+		try {
+			HttpSession httpSession = (HttpSession) config.getUserProperties().get("httpSession");
+			ServletContext context = httpSession.getServletContext();
+			Map<String, Set<Session>> vendor_wait_sessions = (Map) context.getAttribute("vendor_wait_sessions");
+			vendor_wait_sessions.get(vendor_no).add(vendorSession);
+		} catch (NullPointerException e) {
+			return;
+		}
 
 	} // end of onOpen
 
@@ -67,8 +72,5 @@ public class VendorWS {
 	public void onError(Session userSession, Throwable e) {
 		System.out.println("Error: " + e.toString());
 	}
-	
-	
 
 }
-
