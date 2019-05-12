@@ -1,9 +1,9 @@
 package android.wait_pos.controller;
 
 
+import java.util.Set;
 import java.util.Timer;
 
-import javax.websocket.Session;
 
 public class PersonInLine {
 	private String mem_no;
@@ -13,14 +13,15 @@ public class PersonInLine {
 	private Boolean isCancel = false;
 	private Boolean hasPassed = false;
 	private Boolean isChecked = false;
-	private Session memberSession;
+	private Set memSessionSet;
 	private int party_size;
 	private Timer callMemTimer;
 	
-	public PersonInLine(String mem_no, int party_size, int numberPlate) {
+	public PersonInLine(String mem_no, int party_size, int numberPlate, Set memSessionSet) {
 		this.mem_no = mem_no;
 		this.party_size = party_size;
 		this.numberPlate = numberPlate;
+		this.memSessionSet = memSessionSet;
 	}
 	
 	public String getMem_no() {
@@ -66,12 +67,12 @@ public class PersonInLine {
 		this.isChecked = isChecked;
 	}
 
-	public Session getMemberSession() {
-		return memberSession;
+	public Set getMemSessionSet() {
+		return memSessionSet;
 	}
 
-	public void setMemberSession(Session memberSession) {
-		this.memberSession = memberSession;
+	public void setMemSessionSet(Set memSessionSet) {
+		this.memSessionSet = memSessionSet;
 	}
 
 	public int getParty_size() {

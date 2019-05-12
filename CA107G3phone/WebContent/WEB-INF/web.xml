@@ -52,6 +52,8 @@
 		<url-pattern>/fav_res/fav_res.do</url-pattern>
 	</servlet-mapping>
 
+
+
 	<servlet>
 		<servlet-name>Wait_PosServlet</servlet-name>
 		<servlet-class>android.wait_pos.controller.Wait_PosServlet</servlet-class>
@@ -81,7 +83,12 @@
 		<url-pattern>/friend_list/friend_list.do</url-pattern>
 	</servlet-mapping>
 
-
+	<listener>
+		<listener-class>android.wait_pos.controller.MemberWS</listener-class>
+	</listener>
+		<listener>
+		<listener-class>android.wait_pos.controller.VendorWS</listener-class>
+	</listener>
 
 
 </web-app>

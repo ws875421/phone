@@ -147,7 +147,7 @@ public class Wait_PosServlet2 extends HttpServlet {
 					}
 
 					// put the member in line
-					PersonInLine personInLine = new PersonInLine(mem_no, party_size, wait_line.getNumberPlate());
+					PersonInLine personInLine = new PersonInLine(mem_no, party_size, wait_line.getNumberPlate(),(Set) ((Map) getServletContext().getAttribute("member_sessions")).get(mem_no));
 					wait_line.getWait_line().put(mem_no, personInLine);
 
 					// message for member
