@@ -64,10 +64,9 @@ public class Wait_PosServlet2 extends HttpServlet {
 		System.out.println("action:" + action);
 
 		Integer tbl_size = null; // action=insert : null
-
+		String vendor_no = jsonObject.get("vendor_no").getAsString();
 		if ("insertPhone".equals(action)) {
 
-			String vendor_no = jsonObject.get("vendor_no").getAsString();
 			String mem_no = jsonObject.get("mem_no").getAsString();
 			Integer party_size = jsonObject.get("party_size").getAsInt();
 
@@ -147,22 +146,22 @@ public class Wait_PosServlet2 extends HttpServlet {
 					}
 
 					// put the member in line
-					PersonInLine personInLine = new PersonInLine(mem_no, party_size, wait_line.getNumberPlate(),(Set) ((Map) getServletContext().getAttribute("member_sessions")).get(mem_no));
+					PersonInLine personInLine = new PersonInLine(mem_no, party_size, wait_line.getNumberPlate(),
+							(Set) ((Map) getServletContext().getAttribute("member_sessions")).get(mem_no));
 					wait_line.getWait_line().put(mem_no, personInLine);
 
 					// message for member
 
 					result = tbl_size + " 號桌新增候位 " + personInLine.getNumberPlate() + " 號"; // message for vendor
 
-					
-			        JsonObject jsonObject2 = new JsonObject();
-			        jsonObject2.addProperty("號碼牌", wait_line.getWait_line().get(mem_no).getNumberPlate());
-			        jsonObject2.addProperty("前面還有幾組人", wait_line.getWait_line().indexOf(mem_no));
+					JsonObject jsonObject2 = new JsonObject();
+					jsonObject2.addProperty("號碼牌", wait_line.getWait_line().get(mem_no).getNumberPlate());
+					jsonObject2.addProperty("前面還有幾組人", wait_line.getWait_line().indexOf(mem_no));
 
-			        String jsonOut = jsonObject2.toString();
+					String jsonOut = jsonObject2.toString();
 					System.out.println(jsonOut);
 					writeText(res, jsonOut);
-					
+
 				}
 
 				// message for vendor
@@ -175,6 +174,43 @@ public class Wait_PosServlet2 extends HttpServlet {
 			}
 
 		}
+
+		if ("cancelPhone".equals(action)) {
+			
+			System.out.println("##");
+
+			String mem_no = jsonObject.get("mem_no").getAsString();
+
+			String result = null;
+
+			Map<String, Map<Integer, Wait_Line>> wait_line_all = (Map) getServletContext()
+					.getAttribute("wait_line_all");
+
+			Map<Integer, Wait_Line> wait_line_vendor = (Map) wait_line_all.get(vendor_no);
+			tbl_size = jsonObject.get("party_size").getAsInt();
+			
+			Wait_Line wait_line = wait_line_vendor.get(tbl_size);
+			
+
+			PersonInLine personInLine;
+			Integer pilIdx = null; // 位置
+			synchronized (wait_line) {
+				pilIdx = wait_line.getWait_line().indexOf(mem_no);
+				personInLine = wait_line.getWait_line().remove(mem_no);
+				if (personInLine != null) {
+					if (personInLine.getCallMemTimer() != null)
+						personInLine.getCallMemTimer().cancel(); // 叫號中取消
+					result = tbl_size + " 號桌 " + personInLine.getNumberPlate() + " 號已取消"; // message for vendor
+					// send to vendor
+					SendToVendor.refreshLine("cancel", wait_line, tbl_size, vendor_no, result, getServletContext());
+					// send to member after this removed member
+
+				}
+//				out.println("取消候位成功");  // message for member
+
+			}
+
+		} // end of cancel
 
 	}
 
