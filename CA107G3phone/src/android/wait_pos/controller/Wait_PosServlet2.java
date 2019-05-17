@@ -176,7 +176,7 @@ public class Wait_PosServlet2 extends HttpServlet {
 		}
 
 		if ("cancelPhone".equals(action)) {
-			
+
 			System.out.println("##");
 
 			String mem_no = jsonObject.get("mem_no").getAsString();
@@ -187,10 +187,33 @@ public class Wait_PosServlet2 extends HttpServlet {
 					.getAttribute("wait_line_all");
 
 			Map<Integer, Wait_Line> wait_line_vendor = (Map) wait_line_all.get(vendor_no);
-			tbl_size = jsonObject.get("party_size").getAsInt();
-			
+			Integer party_size = jsonObject.get("party_size").getAsInt();
+
+			switch (party_size) {
+			case 1:
+			case 2:
+				tbl_size = 1;
+				break;
+			case 3:
+			case 4:
+				tbl_size = 2;
+				break;
+			case 5:
+			case 6:
+				tbl_size = 3;
+				break;
+			case 7:
+			case 8:
+				tbl_size = 4;
+				break;
+			case 9:
+			case 10:
+				tbl_size = 5;
+				break;
+
+			}
+			System.out.println("tbl_size=" + tbl_size);
 			Wait_Line wait_line = wait_line_vendor.get(tbl_size);
-			
 
 			PersonInLine personInLine;
 			Integer pilIdx = null; // 位置
@@ -222,29 +245,29 @@ public class Wait_PosServlet2 extends HttpServlet {
 		System.out.println("outText: " + outText);
 	}
 
-	@Override
-	public void init() throws ServletException {
-		ServletContext context = getServletContext();
-		context.setAttribute("wait_line_all", new HashMap<String, Map<Integer, Wait_Line>>());
-		context.setAttribute("vendor_wait_sessions", new ConcurrentHashMap<String, Set<Session>>());
-	}
+//	@Override
+//	public void init() throws ServletException {
+//		ServletContext context = getServletContext();
+//		context.setAttribute("wait_line_all", new HashMap<String, Map<Integer, Wait_Line>>());
+//		context.setAttribute("vendor_wait_sessions", new ConcurrentHashMap<String, Set<Session>>());
+//	}
 
-	public Wait_Line getWaitLine(String vendor_no, Integer tbl_size) {
-		Map<String, Map<Integer, Wait_Line>> wait_line_all = (Map) getServletContext().getAttribute("wait_line_all");
-
-		Map<Integer, Wait_Line> wait_line_vendor = (Map) wait_line_all.get(vendor_no);
-		if (wait_line_vendor == null) {
-			wait_line_vendor = new HashMap<Integer, Wait_Line>();
-			wait_line_all.put(vendor_no, wait_line_vendor);
-		}
-
-		Wait_Line wait_line = wait_line_vendor.get(tbl_size);
-		if (wait_line == null) {
-			wait_line = new Wait_Line();
-			wait_line_vendor.put(tbl_size, wait_line);
-		}
-
-		return wait_line;
-	} // End of getWaitLine
+//	public Wait_Line getWaitLine(String vendor_no, Integer tbl_size) {
+//		Map<String, Map<Integer, Wait_Line>> wait_line_all = (Map) getServletContext().getAttribute("wait_line_all");
+//
+//		Map<Integer, Wait_Line> wait_line_vendor = (Map) wait_line_all.get(vendor_no);
+//		if (wait_line_vendor == null) {
+//			wait_line_vendor = new HashMap<Integer, Wait_Line>();
+//			wait_line_all.put(vendor_no, wait_line_vendor);
+//		}
+//
+//		Wait_Line wait_line = wait_line_vendor.get(tbl_size);
+//		if (wait_line == null) {
+//			wait_line = new Wait_Line();
+//			wait_line_vendor.put(tbl_size, wait_line);
+//		}
+//
+//		return wait_line;
+//	} // End of getWaitLine
 
 } // end of class

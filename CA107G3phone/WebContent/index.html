@@ -37,7 +37,7 @@
 
 	function connect() {
 		// create a websocket
-		webSocket = new WebSocket("ws://192.168.0.109:8081/CA107G3phone/MemberWS/M000001");
+		webSocket = new WebSocket("ws://172.20.10.3:8081/CA107G3phone/MemberWS/M000002");
 
 		webSocket.onopen = function(event) {
 			updateStatus("WebSocket Connected");

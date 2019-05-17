@@ -49,13 +49,17 @@ public class Wait_PosServlet extends HttpServlet {
 		PrintWriter out = res.getWriter();
 		
 		
+		
 		String action = req.getParameter("action");
+		System.out.println(action);
 		
 		String vendor_no = req.getParameter("vendor_no");
 		
 		Integer tbl_size = null; // action=insert : null
 		if (req.getParameter("tbl_size") != null)
 			tbl_size = Integer.parseInt(req.getParameter("tbl_size"));
+		System.out.println("##"+tbl_size);
+		
 		
 /* ============================= Vendor ================================= */		
 // open_wait_fun
@@ -106,7 +110,7 @@ public class Wait_PosServlet extends HttpServlet {
 				PersonInLine personInLine = wait_line.getWait_line().get(mem_no);
 				
 				Timer callMemTimer = new Timer();
-				long delay = 30 * 1000; // ms
+				long delay = 10 * 1000; // ms
 				long deadline = System.currentTimeMillis() + delay;
 				callMemTimer.schedule(new CallMemTask(vendor_no, tbl_size, wait_line, mem_no, getServletContext()), new Date(deadline));				
 				personInLine.setDeadline(deadline);

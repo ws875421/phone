@@ -9,8 +9,12 @@ public class OrdService {
 		dao = new OrdDAO();
 	}
 
-	public boolean isOrd(String MEM_NO, String VERIF_CODE) {
-		return dao.isOrd(MEM_NO, VERIF_CODE);
+	public boolean isOrd(String ord_no, String MEM_NO, String vendor_no, String VERIF_CODE) {
+		return dao.isOrd(ord_no, MEM_NO, vendor_no, VERIF_CODE);
 	}
-	
+
+	public List<OrdVO> getord(String MEM_NO) {
+		return dao.getord(MEM_NO);
+	}
+
 }

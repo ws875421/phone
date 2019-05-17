@@ -25,13 +25,14 @@ import org.json.JSONObject;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import android.member.Util.ImageUtil;
+
+
 import android.ord.model.OrdService;
-import android.vendor.model.*;
+import android.ord.model.OrdVO;
 
 //@WebServlet("/VendorServlet")
 //@MultipartConfig
-public class OrdServlet extends HttpServlet {
+public class OrdServlet2 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private final static String CONTENT_TYPE = "text/html; charset=UTF-8";
@@ -58,20 +59,13 @@ public class OrdServlet extends HttpServlet {
 
 		JsonObject jsonObject = gson.fromJson(jsonIn.toString(), JsonObject.class);
 
-		String ord_no = jsonObject.get("ord_no").getAsString();
-		String mem_no = jsonObject.get("mem_no").getAsString();
-		String vendor_no = jsonObject.get("vendor_no").getAsString();
-		String verif_code = jsonObject.get("verif_code").getAsString();
+		String action = jsonObject.get("action").getAsString();
 
-
-
-		if (ordSvc.isOrd(ord_no, mem_no, vendor_no, verif_code)) {
-			writeText(res, String.valueOf(ordSvc.isOrd(ord_no, mem_no, vendor_no, verif_code)));
-		} else {
-			writeText(res, String.valueOf("false"));
+		if (action.equals("getord")) {
+			String mem_no = jsonObject.get("mem_no").getAsString();
+			List<OrdVO> list = ordSvc.getord(mem_no);
+			writeText(res, gson.toJson(list));
 		}
-
-
 
 	}
 

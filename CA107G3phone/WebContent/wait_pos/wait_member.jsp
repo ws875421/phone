@@ -29,7 +29,7 @@
 <br><br>
 
 <!-- Cancel Wait -->
-<form action="<%=request.getContextPath()%>/wait_pos/wait_pos2.do">
+<form action="<%=request.getContextPath()%>/wait_pos/wait_pos.do">
 
 		廠商編號<input type="text" name="vendor_no"> <br>
 		
